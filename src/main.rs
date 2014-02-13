@@ -9,23 +9,23 @@ static HEIGHT: int = 800;
 
 #[main]
 fn main() {
-  let mut pixels = ~[Black, ..((WIDTH * HEIGHT) as uint)];
+  let mut pixels = [Black, ..((WIDTH * HEIGHT) as uint)];
 
   let scene = Scene {
-    eye: Point { x: -300., y: 0., z: 200. },
+    eye: Point::new(-300., 0., 200.),
     spot: Spot {
-      pos: Point { x: -300., y: 100., z: 200. },
+      pos: Point::new(-300., 100., 200.),
       color: White
     },
     objects: ~[
       Shape {
-        pos: Point { x: 0., y: 0., z: 100. },
+        pos: Point::new(0., 0., 100.),
         shininess: 0.2,
         color: Red,
         shape: ~Sphere { radius: 160. }
       },
       Shape {
-        pos: Point { x: 0., y: 0., z: 0.},
+        pos: Point::new(0., 0., 0.),
         shininess: 0.1,
         color: Green,
         shape: ~Plane
@@ -35,13 +35,13 @@ fn main() {
 
   for x in range(0, WIDTH) {
     for y in range(0, HEIGHT) {
-      let vector = ~Point {
+      let vector = Point {
         x: 100.,
         y: (WIDTH / 2 - x) as f64,
         z: (HEIGHT / 2 - y) as f64
       };
 
-      let (obj, k) = scene.get_closest(vector);
+      let (obj, k) = scene.get_closest(&vector);
 
       if obj.is_none() {
         pixels[y * WIDTH + x] = Black;

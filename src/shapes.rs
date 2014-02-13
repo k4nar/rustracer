@@ -6,7 +6,7 @@ use scene::Scene;
 
 trait Drawable {
   fn hit(&self, eye: &Point, vector: &Point) -> f64;
-  fn perp(&self, inter: &Point) -> ~Point;
+  fn perp(&self, inter: &Point) -> Point;
 }
 
 pub struct Shape {
@@ -47,8 +47,8 @@ impl Drawable for Sphere {
     return solve_poly(a, b, c);
   }
 
-  fn perp(&self, inter: &Point) -> ~Point {
-    ~Point { x: inter.x, y: inter.y, z: inter.z }
+  fn perp(&self, inter: &Point) -> Point {
+    Point::new(inter.x, inter.y, inter.z)
   }
 }
 
@@ -62,7 +62,7 @@ impl Drawable for Plane {
     }
   }
 
-  fn perp(&self, inter: &Point) -> ~Point {
-    ~Point { x: 0., y: 0., z: 100. }
+  fn perp(&self, inter: &Point) -> Point {
+    Point::new(0., 0., 100.)
   }
 }

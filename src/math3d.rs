@@ -6,6 +6,12 @@ pub struct Point {
   z: f64
 }
 
+impl Point {
+  pub fn new(x: f64, y: f64, z: f64) -> Point {
+    Point { x: x, y: y, z: z }
+  }
+}
+
 pub fn solve_poly(a: f64, b: f64, c: f64) -> f64 {
   let delta = b.pow(&2.0) - 4. * a * c;
 

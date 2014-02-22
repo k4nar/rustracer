@@ -6,7 +6,7 @@
 
 #[crate_type = "bin"];
 
-extern mod png;
+extern crate png;
 mod color;
 mod math3d;
 mod scene;

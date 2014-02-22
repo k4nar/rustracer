@@ -1,4 +1,4 @@
-use std::num::sqrt;
+use std::num::powf;
 
 use color::{Color, Black, White, Red, Green, Blue};
 use math3d::{Point, solve_poly};
@@ -19,9 +19,7 @@ pub struct Shape {
 impl Shape {
   pub fn get_light(&self, scene: &Scene, inter: &Point, light: &Point) -> Color {
     let perp = self.shape.perp(inter);
-    let norme_l = sqrt(light.x.pow(&2.) + light.y.pow(&2.) + light.z.pow(&2.));
-    let norme_n = sqrt(perp.x.pow(&2.) + perp.y.pow(&2.) + perp.z.pow(&2.));
-    let cos_a = (light.x * perp.x + light.y * perp.y + light.z * perp.z) / (norme_l * norme_n);
+    let cos_a = light.scalar_product(&perp) / (light.norm() * perp.norm());
 
     if cos_a <= 0. {
       return Black;
@@ -41,9 +39,9 @@ pub struct Sphere {
 
 impl Drawable for Sphere {
   fn hit(&self, eye: &Point, vector: &Point) -> f64 {
-    let a = vector.x.pow(&2.) + vector.y.pow(&2.) + vector.z.pow(&2.);
-    let b = 2. * (eye.x * vector.x + eye.y * vector.y + eye.z * vector.z);
-    let c = eye.x.pow(&2.) + eye.y.pow(&2.) + eye.z.pow(&2.) - self.radius.pow(&2.);
+    let a = vector.scalar_product(vector);
+    let b = 2. * eye.scalar_product(vector);
+    let c = eye.scalar_product(eye) - powf(self.radius, 2.);
     return solve_poly(a, b, c);
   }
 

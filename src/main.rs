@@ -49,28 +49,8 @@ fn main() {
       else {
         let closest = obj.unwrap();
 
-        // // Shadow
-        // let inter = Point {
-        //   x: eye.x + closest * vector.x,
-        //   y: eye.y + closest * vector.y,
-        //   z: eye.z + closest * vector.z
-        // };
-        // let light = Point {
-        //   x: spot.pos.x - inter.x,
-        //   y: spot.pos.y - inter.y,
-        //   z: spot.pos.z - inter.z
-        // };
-
-        let inter = Point {
-          x: (scene.eye.x - closest.pos.x) + k * vector.x,
-          y: (scene.eye.y - closest.pos.y) + k * vector.y,
-          z: (scene.eye.z - closest.pos.z) + k * vector.z
-        };
-        let light = Point {
-          x: scene.spot.pos.x - inter.x,
-          y: scene.spot.pos.y - inter.y,
-          z: scene.spot.pos.z - inter.z
-        };
+        let inter = (scene.eye - closest.pos) + vector * k;
+        let light = scene.spot.pos - inter;
 
         pixels[y * WIDTH + x] = match k {
           0. => Black,

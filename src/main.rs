@@ -1,6 +1,6 @@
 use png;
 use color::{Color, Black, White, Red, Green, Blue};
-use math3d::Point;
+use point::Point;
 use scene::{Scene, Spot};
 use shapes::{Shape, Sphere, Plane};
 

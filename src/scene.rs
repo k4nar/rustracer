@@ -1,5 +1,5 @@
 use shapes::Shape;
-use math3d::Point;
+use point::Point;
 use color::Color;
 
 pub struct Spot {

@@ -53,21 +53,3 @@ impl MulRhs<Point> for f64 {
     Point {x: *self * other.x, y: *self * other.y, z: *self * other.z}
   }
 }
-
-pub fn solve_poly(a: f64, b: f64, c: f64) -> f64 {
-  let delta = powf(b,  2.0) - 4. * a * c;
-
-  if delta < 0. {
-    return 0.;
-  }
-
-  let sign = match c {
-    _ if c < 0. => 1.,
-    _ => -1.
-  };
-  let k = (-b + sign * sqrt(delta)) / (2. * a);
-  return match k {
-    _ if k > 0. => k,
-    _ => 0.
-  }
-}

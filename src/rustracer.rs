@@ -8,7 +8,7 @@
 
 extern crate png;
 mod color;
-mod math3d;
+mod point;
 mod scene;
 mod shapes;
 mod main;

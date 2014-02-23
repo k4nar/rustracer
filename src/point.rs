@@ -15,6 +15,11 @@ impl Point {
     sqrt(powf(self.x, 2.) + powf(self.y, 2.) + powf(self.z, 2.))
   }
 
+  pub fn normalize(&self) -> Point {
+    let norm = self.norm();
+    Point {x: self.x / norm, y: self.y / norm, z: self.z / norm}
+  }
+
   pub fn scalar_product(&self, other: &Point) -> f64 {
     self.x * other.x + self.y * other.y + self.z * other.z
   }

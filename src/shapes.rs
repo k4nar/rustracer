@@ -1,6 +1,7 @@
 use std::num::{powf, sqrt};
+use std::f64::{INFINITY, NEG_INFINITY};
 
-use color::{Color, Black, White, Red, Green, Blue};
+use color::{Color, Black};
 use point::Point;
 use scene::Scene;
 
@@ -17,11 +18,12 @@ pub struct Shape {
 }
 
 impl Shape {
-  pub fn get_light(&self, scene: &Scene, inter: &Point, light: &Point) -> Color {
+  pub fn get_light(&self, scene: &Scene, inter: &Point) -> Color {
+    let light = scene.spot.pos - *inter;
     let perp = self.shape.perp(inter);
-    let cos_a = light.scalar_product(&perp) / (light.norm() * perp.norm());
+    let cos_a = perp.normalize().scalar_product(&light.normalize());
 
-    if cos_a <= 0. {
+    if cos_a <= 0.001 {
       return Black;
     }
 

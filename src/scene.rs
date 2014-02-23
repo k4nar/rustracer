@@ -19,9 +19,7 @@ impl Scene {
     let mut closest: Option<&'a Shape> = None;
 
     for obj in self.objects.iter() {
-      let e = self.eye - obj.pos;
-      let v = vector;
-      let k = obj.shape.hit(&e, v);
+      let k = obj.shape.hit(&(self.eye - obj.pos), vector);
       if k != 0. && (min == 0. || k < min) {
         min = k;
         closest = Some(obj);

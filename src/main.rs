@@ -12,22 +12,22 @@ fn main() {
   let mut pixels = [Black, ..((WIDTH * HEIGHT) as uint)];
 
   let scene = Scene {
-    eye: Point::new(-300., 0., 200.),
+    eye: Point::new(-1200., 0., 0.),
     spot: Spot {
-      pos: Point::new(-300., 100., 200.),
+      pos: Point::new(-1200., 0., 0.),
       color: White
     },
     objects: ~[
       Shape {
-        pos: Point::new(0., 0., 100.),
+        pos: Point::new(0., 0., 0.),
         shininess: 0.2,
         color: Red,
-        shape: ~Sphere { radius: 160. }
+        shape: ~Sphere { radius: 100. }
       },
       Shape {
-        pos: Point::new(0., 0., 0.),
-        shininess: 0.1,
-        color: Green,
+        pos: Point::new(0., 0., -100.),
+        shininess: 0.2,
+        color: White,
         shape: ~Plane
       },
     ]
@@ -36,27 +36,23 @@ fn main() {
   for x in range(0, WIDTH) {
     for y in range(0, HEIGHT) {
       let vector = Point {
-        x: 100.,
+        x: 1000.,
         y: (WIDTH / 2 - x) as f64,
         z: (HEIGHT / 2 - y) as f64
       };
 
       let (obj, k) = scene.get_closest(&vector);
 
-      if obj.is_none() {
-        pixels[y * WIDTH + x] = Black;
-      }
-      else {
-        let closest = obj.unwrap();
-
-        let inter = (scene.eye - closest.pos) + vector * k;
-        let light = scene.spot.pos - inter;
-
-        pixels[y * WIDTH + x] = match k {
-          0. => Black,
-          _ => closest.get_light(&scene, &inter, &light)
+      pixels[y * WIDTH + x] =
+        if obj.is_none() || k <= 0. {
+           Black
         }
-      }
+        else {
+          let closest = obj.unwrap();
+
+          let inter = scene.eye + vector * k;
+          closest.get_light(&scene, &inter)
+        };
     }
   }
 

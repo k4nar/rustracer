@@ -13,20 +13,26 @@ fn main() {
 
   let scene = Scene {
     eye: Point::new(-1200., 0., 0.),
-    spot: Spot {
-      pos: Point::new(-1200., 0., 0.),
-      color: White
-    },
+    spots: ~[
+      Spot {
+        pos: Point::new(-1000., -100., 0.),
+        color: Blue
+      },
+      Spot {
+        pos: Point::new(-1000., 100., 0.),
+        color: Red
+      },
+    ],
     objects: ~[
       Shape {
         pos: Point::new(0., 0., 0.),
-        shininess: 0.2,
-        color: Red,
+        shininess: 0.8,
+        color: Black,
         shape: ~Sphere { radius: 100. }
       },
       Shape {
         pos: Point::new(0., 0., -100.),
-        shininess: 0.2,
+        shininess: 0.8,
         color: White,
         shape: ~Plane
       },
@@ -51,7 +57,7 @@ fn main() {
           let closest = obj.unwrap();
 
           let inter = scene.eye + vector * k;
-          closest.get_light(&scene, &inter)
+          scene.get_color(closest, &inter)
         };
     }
   }

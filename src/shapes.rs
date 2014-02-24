@@ -1,9 +1,7 @@
 use std::num::{powf, sqrt};
-use std::f64::{INFINITY, NEG_INFINITY};
 
 use color::{Color, Black};
 use point::Point;
-use scene::Scene;
 
 trait Drawable {
   fn hit(&self, eye: &Point, vector: &Point) -> f64;
@@ -15,24 +13,6 @@ pub struct Shape {
   shininess: f64,
   color: Color,
   shape: ~Drawable
-}
-
-impl Shape {
-  pub fn get_light(&self, scene: &Scene, inter: &Point) -> Color {
-    let light = scene.spot.pos - *inter;
-    let perp = self.shape.perp(inter);
-    let cos_a = perp.normalize().scalar_product(&light.normalize());
-
-    if cos_a <= 0.001 {
-      return Black;
-    }
-
-    Color {
-      r: ((self.color.r as f64) * cos_a * (1. - self.shininess) + (scene.spot.color.r as f64) * cos_a * self.shininess) as u8,
-      g: ((self.color.g as f64) * cos_a * (1. - self.shininess) + (scene.spot.color.g as f64) * cos_a * self.shininess) as u8,
-      b: ((self.color.b as f64) * cos_a * (1. - self.shininess) + (scene.spot.color.b as f64) * cos_a * self.shininess) as u8
-    }
-  }
 }
 
 pub struct Sphere {

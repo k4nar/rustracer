@@ -1,3 +1,4 @@
+use std::f64::INFINITY;
 use std::cmp::min;
 
 use shapes::Shape;
@@ -17,12 +18,12 @@ pub struct Scene {
 
 impl Scene {
   pub fn get_closest<'a>(&'a self, vector: &'a Point) -> (Option<&'a Shape>, f64) {
-    let mut min: f64 = 0.;
+    let mut min: f64 = INFINITY;
     let mut closest: Option<&'a Shape> = None;
 
     for obj in self.objects.iter() {
       let k = obj.shape.hit(&(self.eye - obj.pos), vector);
-      if k != 0. && (min == 0. || k < min) {
+      if k > 0. && k < min {
         min = k;
         closest = Some(obj);
       }
@@ -31,12 +32,34 @@ impl Scene {
     return (closest, min);
   }
 
-  pub fn get_color(&self, shape: &Shape, inter: &Point) -> Color {
+  fn get_shadow(&self, shape: &Shape, spot: &Spot, inter: &Point) -> bool {
+    let limit = shape.shape.hit(inter, &spot.pos);
+
+    for obj in self.objects.iter() {
+      if obj as *Shape == shape as *Shape {
+        continue;
+      }
+
+      let k = obj.shape.hit(inter, &spot.pos);
+      if k > 0. && k < limit {
+        return true;
+      }
+    }
+    return false
+    }
+
+  pub fn get_color(&self, shape: &Shape, vector: &Point, dist: f64) -> Color {
     let (mut r, mut g, mut b) = (0., 0., 0.);
 
+    let inter = self.eye + vector * dist;
+
     for spot in self.spots.iter() {
-      let light = spot.pos - *inter;
-      let perp = shape.shape.perp(inter);
+      if self.get_shadow(shape, spot, &inter) {
+        continue;
+      }
+
+      let light = spot.pos - inter;
+      let perp = shape.shape.perp(&inter);
       let cos_a = perp.normalize().scalar_product(&light.normalize());
 
       if cos_a <= 0. {

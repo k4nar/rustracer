@@ -15,12 +15,12 @@ fn main() {
     eye: Point::new(-1200., 0., 0.),
     spots: ~[
       Spot {
-        pos: Point::new(-1000., -100., 0.),
+        pos: Point::new(-1000., -100., 100.),
         color: Blue
       },
       Spot {
-        pos: Point::new(-1000., 100., 0.),
-        color: Red
+        pos: Point::new(-1000., 100., 100.),
+        color: Green
       },
     ],
     objects: ~[
@@ -55,9 +55,7 @@ fn main() {
         }
         else {
           let closest = obj.unwrap();
-
-          let inter = scene.eye + vector * k;
-          scene.get_color(closest, &inter)
+          scene.get_color(closest, &vector, k)
         };
     }
   }

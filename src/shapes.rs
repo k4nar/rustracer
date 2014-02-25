@@ -20,10 +20,10 @@ pub struct Sphere {
 }
 
 impl Drawable for Sphere {
-  fn hit(&self, eye: &Point, vector: &Point) -> f64 {
+  fn hit(&self, origin: &Point, vector: &Point) -> f64 {
     let a = vector.scalar_product(vector);
-    let b = 2. * eye.scalar_product(vector);
-    let c = eye.scalar_product(eye) - powf(self.radius, 2.);
+    let b = 2. * origin.scalar_product(vector);
+    let c = origin.scalar_product(origin) - powf(self.radius, 2.);
     return solve_poly(a, b, c);
   }
 
@@ -36,10 +36,7 @@ pub struct Plane;
 
 impl Drawable for Plane {
   fn hit(&self, eye: &Point, vector: &Point) -> f64 {
-    match -eye.z / vector.z {
-      k if k > 0. => k,
-      _ => 0.
-    }
+    -eye.z / vector.z
   }
 
   fn perp(&self, inter: &Point) -> Point {
@@ -58,10 +55,7 @@ pub fn solve_poly(a: f64, b: f64, c: f64) -> f64 {
     _ if c < 0. => 1.,
     _ => -1.
   };
-  let k = (-b + sign * sqrt(delta)) / (2. * a);
-  return match k {
-    _ if k > 0. => k,
-    _ => 0.
-  }
+
+  (-b + sign * sqrt(delta)) / (2. * a)
 }
 

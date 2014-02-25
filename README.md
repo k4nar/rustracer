@@ -1,8 +1,21 @@
 Rustracer
 =========
 
-This raytracer is basically the transcription in Rust of a short one I wrote a few years back in C. It's broken, non-efficient, poorly designed and not powerful. The main goal was to do some experiments with Rust, not to build the future of raycasting.
+This is a simplistic Raytracer written in Rust. The main goal is to write a simple and elegant Rust program. It's not efficient, it's not powerful, but the code should be pretty straightforward.
 
-I'll try to make some improvements in the near future, but I don't understand the maths behind most of the papers concerning raycasting. If you want to help me, feel free to open an issue or make a pull-request.
+Currently, it handles the following :
 
-![First shot](examples/firstshot.png)
+- Simple objects (spheres, planes)
+- Multiple light sources
+- Shadows
+
+I want to add some functionalities, like :
+
+- Reflection
+- Rotation
+- Transparency
+- Refraction
+
+I also want to do some experiments with Path-Tracing and Photon-Mapping.
+
+![In progress](examples/inprogress.png)

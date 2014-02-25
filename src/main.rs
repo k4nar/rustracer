@@ -2,7 +2,7 @@ use png;
 use color::{Color, Black, White, Red, Green, Blue};
 use point::Point;
 use scene::{Scene, Spot};
-use shapes::{Shape, Sphere, Plane};
+use shapes::{Object, Sphere, Plane};
 
 static WIDTH: int = 800;
 static HEIGHT: int = 800;
@@ -24,13 +24,13 @@ fn main() {
       },
     ],
     objects: ~[
-      Shape {
+      Object {
         pos: Point::new(0., 0., 0.),
         shininess: 0.8,
         color: Black,
         shape: ~Sphere { radius: 100. }
       },
-      Shape {
+      Object {
         pos: Point::new(0., 0., -100.),
         shininess: 0.8,
         color: White,

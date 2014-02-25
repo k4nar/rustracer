@@ -3,23 +3,23 @@ use std::num::{powf, sqrt};
 use color::{Color, Black};
 use point::Point;
 
-trait Drawable {
+trait Shape {
   fn hit(&self, eye: &Point, vector: &Point) -> f64;
   fn perp(&self, inter: &Point) -> Point;
 }
 
-pub struct Shape {
+pub struct Object {
   pos: Point,
   shininess: f64,
   color: Color,
-  shape: ~Drawable
+  shape: ~Shape
 }
 
 pub struct Sphere {
   radius: f64,
 }
 
-impl Drawable for Sphere {
+impl Shape for Sphere {
   fn hit(&self, origin: &Point, vector: &Point) -> f64 {
     let a = vector.scalar_product(vector);
     let b = 2. * origin.scalar_product(vector);
@@ -34,7 +34,7 @@ impl Drawable for Sphere {
 
 pub struct Plane;
 
-impl Drawable for Plane {
+impl Shape for Plane {
   fn hit(&self, eye: &Point, vector: &Point) -> f64 {
     -eye.z / vector.z
   }

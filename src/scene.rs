@@ -32,13 +32,13 @@ impl Scene {
     return (closest, min);
   }
 
-  fn get_shadow(&self, cur: &Object, spot: &Spot, inter: &Point) -> bool {
+  fn get_shadow(&self, cur: &Object, light: &Point, inter: &Point) -> bool {
     for obj in self.objects.iter() {
       if obj as *Object == cur as *Object {
         continue;
       }
 
-      let k = obj.shape.hit(&(inter - obj.pos), &(spot.pos - *inter));
+      let k = obj.shape.hit(&(inter - obj.pos), light);
       if k > 0. && k < 1. {
         return true;
       }
@@ -53,15 +53,16 @@ impl Scene {
     let inter = self.eye + vector * dist;
 
     for spot in self.spots.iter() {
-      if self.get_shadow(obj, spot, &inter) {
+      let light = spot.pos - inter;
+
+      if self.get_shadow(obj, &light, &inter) {
         continue;
       }
 
-      let light = spot.pos - inter;
       let perp = obj.shape.perp(&inter);
       let cos_a = perp.normalize().scalar_product(&light.normalize());
 
-      if cos_a <= 0. {
+      if cos_a <= 0. || cos_a.is_nan() {
         continue;
       }
 

@@ -33,20 +33,19 @@ impl Scene {
   }
 
   fn get_shadow(&self, cur: &Object, spot: &Spot, inter: &Point) -> bool {
-    let limit = cur.shape.hit(inter, &spot.pos);
-
     for obj in self.objects.iter() {
       if obj as *Object == cur as *Object {
         continue;
       }
 
-      let k = obj.shape.hit(inter, &spot.pos);
-      if k > 0. && k < limit {
+      let k = obj.shape.hit(&(inter - obj.pos), &(spot.pos - *inter));
+      if k > 0. && k < 1. {
         return true;
       }
     }
-    return false
-    }
+
+    false
+  }
 
   pub fn get_color(&self, obj: &Object, vector: &Point, dist: f64) -> Color {
     let (mut r, mut g, mut b) = (0., 0., 0.);

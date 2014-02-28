@@ -28,7 +28,7 @@ impl Shape for Sphere {
   }
 
   fn perp(&self, inter: &Point) -> Point {
-    Point::new(inter.x, inter.y, inter.z)
+    *inter
   }
 }
 

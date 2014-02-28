@@ -15,7 +15,7 @@ fn main() {
     eye: Point::new(-12000., 0., 0.),
     spots: ~[
       Spot {
-        pos: Point::new(-1000., -200., 0.),
+        pos: Point::new(0., -200., 0.),
         color: White
       },
     ],

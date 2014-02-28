@@ -83,7 +83,7 @@ fn main() {
         x: 10000.,
         y: (WIDTH / 2 - x) as f64,
         z: (HEIGHT / 2 - y) as f64
-      };
+      }.normalize();
 
       pixels[y * WIDTH + x] = match scene.get_closest(&vector) {
         (Some(obj), k) if k > 0. => scene.get_color(obj, &vector, k),

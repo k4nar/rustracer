@@ -85,16 +85,10 @@ fn main() {
         z: (HEIGHT / 2 - y) as f64
       };
 
-      let (obj, k) = scene.get_closest(&vector);
-
-      pixels[y * WIDTH + x] =
-        if obj.is_none() || k <= 0. {
-           Black
-        }
-        else {
-          let closest = obj.unwrap();
-          scene.get_color(closest, &vector, k)
-        };
+      pixels[y * WIDTH + x] = match scene.get_closest(&vector) {
+        (Some(obj), k) if k > 0. => scene.get_color(obj, &vector, k),
+        _ => Black
+      }
     }
   }
 

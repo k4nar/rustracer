@@ -8,10 +8,10 @@ Currently, it handles the following :
 - Simple objects (spheres, planes)
 - Multiple light sources
 - Shadows
+- Reflection
 
 I want to add some functionalities, like :
 
-- Reflection
 - Rotation
 - Transparency
 - Refraction

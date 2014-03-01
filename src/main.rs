@@ -15,64 +15,31 @@ fn main() {
     eye: Point::new(-12000., 0., 0.),
     spots: ~[
       Spot {
-        pos: Point::new(0., -200., 0.),
+        pos: Point::new(-10000., -500., 5000.),
         color: White
       },
     ],
     objects: ~[
       Object {
-        pos: Point::new(0., 400., 400.),
+        pos: Point::new(0., 100., 0.),
         shininess: 0.,
-        color: Green,
+        reflection: 0.1,
+        color: White,
         shape: ~Sphere { radius: 100. }
       },
       Object {
-        pos: Point::new(0., 400., 0.),
+        pos: Point::new(0., -100., 0.),
         shininess: 0.,
-        color: Green,
+        reflection: 1.,
+        color: White,
         shape: ~Sphere { radius: 100. }
       },
       Object {
-        pos: Point::new(0., 400., -400.),
+        pos: Point::new(0., 0., -100.),
         shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., -400., 400.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., -400., 0.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., -400., -400.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., 0., 400.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., 0., 0.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
-      },
-      Object {
-        pos: Point::new(0., 0., -400.),
-        shininess: 0.,
-        color: Green,
-        shape: ~Sphere { radius: 100. }
+        reflection: 0.3,
+        color: White,
+        shape: ~Plane
       },
     ]
   };
@@ -85,8 +52,8 @@ fn main() {
         z: (HEIGHT / 2 - y) as f64
       }.normalize();
 
-      pixels[y * WIDTH + x] = match scene.get_closest(&vector) {
-        (Some(obj), k) if k > 0. => scene.get_color(obj, &vector, k),
+      pixels[y * WIDTH + x] = match scene.get_closest(&scene.eye, &vector, None) {
+        (Some(obj), k) if k > 0. => scene.get_color(obj, &scene.eye, &vector, k, 5),
         _ => Black
       }
     }

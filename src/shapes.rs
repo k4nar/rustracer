@@ -10,9 +10,10 @@ trait Shape {
 
 pub struct Object {
   pos: Point,
-  shininess: f64,
   color: Color,
-  shape: ~Shape
+  shape: ~Shape,
+  shininess: f64,
+  reflection: f64,
 }
 
 pub struct Sphere {

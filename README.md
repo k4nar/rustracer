@@ -3,6 +3,9 @@ Rustracer
 
 This is a simplistic Raytracer written in Rust. The main goal is to write a simple and elegant Rust program. It's not efficient, it's not powerful, but the code should be pretty straightforward.
 
+![Reflection](examples/reflection.png)
+![In progress](examples/inprogress.png)
+
 Currently, it handles the following :
 
 - Simple objects (spheres, planes)
@@ -17,6 +20,3 @@ I want to add some functionalities, like :
 - Refraction
 
 I also want to do some experiments with Path-Tracing and Photon-Mapping.
-
-![Reflection](examples/reflection.png)
-![In progress](examples/inprogress.png)

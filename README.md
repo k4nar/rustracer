@@ -18,4 +18,5 @@ I want to add some functionalities, like :
 
 I also want to do some experiments with Path-Tracing and Photon-Mapping.
 
+![Reflection](examples/reflection.png)
 ![In progress](examples/inprogress.png)

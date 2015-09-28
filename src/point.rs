@@ -1,9 +1,10 @@
-use std::num::{powf, sqrt};
+use std::ops::{Mul, Add, Sub};
 
+#[derive(Copy, Clone)]
 pub struct Point {
-  x: f64,
-  y: f64,
-  z: f64
+  pub x: f64,
+  pub y: f64,
+  pub z: f64
 }
 
 impl Point {
@@ -12,7 +13,7 @@ impl Point {
   }
 
   pub fn norm(&self) -> f64 {
-    sqrt(powf(self.x, 2.) + powf(self.y, 2.) + powf(self.z, 2.))
+    (self.x.powi(2) + self.y.powi(2) + self.z.powi(2)).sqrt()
   }
 
   pub fn normalize(&self) -> Point {
@@ -20,41 +21,48 @@ impl Point {
     Point {x: self.x / norm, y: self.y / norm, z: self.z / norm}
   }
 
-  pub fn scalar_product(&self, other: &Point) -> f64 {
+  pub fn scalar_product(&self, other: Point) -> f64 {
     self.x * other.x + self.y * other.y + self.z * other.z
   }
 }
 
-impl Add<Point, Point> for Point {
-  fn add(&self, other: &Point) -> Point {
+impl Add<Point> for Point {
+  type Output = Point;
+
+  fn add(self, other: Point) -> Point {
     Point {x: self.x + other.x, y: self.y + other.y, z: self.z + other.z}
   }
 }
 
-impl Sub<Point, Point> for Point {
-  fn sub(&self, other: &Point) -> Point {
+
+impl Sub<Point> for Point {
+  type Output = Point;
+
+  fn sub(self, other: Point) -> Point {
     Point {x: self.x - other.x, y: self.y - other.y, z: self.z - other.z}
   }
 }
 
-trait MulRhs<T> {
-  fn mul(&self, lhs: &Point) -> T;
-}
+impl Mul<f64> for Point {
+  type Output = Point;
 
-impl<R, L: MulRhs<R>> Mul<L, R> for Point {
-  fn mul(&self, other: &L) -> R {
+  fn mul(self, other: f64) -> Point {
     other.mul(self)
   }
 }
 
-impl MulRhs<Point> for Point {
-  fn mul(&self, other: &Point) -> Point {
+impl Mul<Point> for Point {
+  type Output = Point;
+
+  fn mul(self, other: Point) -> Point {
     Point {x: self.x * other.x, y: self.y * other.y, z: self.z * other.z}
   }
 }
 
-impl MulRhs<Point> for f64 {
-  fn mul(&self, other: &Point) -> Point {
-    Point {x: *self * other.x, y: *self * other.y, z: *self * other.z}
+impl Mul<Point> for f64 {
+  type Output = Point;
+
+  fn mul(self, other: Point) -> Point {
+    Point {x: self * other.x, y: self * other.y, z: self * other.z}
   }
 }

@@ -1,3 +1,0 @@
-[submodule "lib/rust-png"]
-	path = lib/rust-png
-	url = https://github.com/mozilla-servo/rust-png
